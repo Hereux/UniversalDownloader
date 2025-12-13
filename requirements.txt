@@ -1,0 +1,7 @@
+eyed3
+ffmpeg-python
+spotipy
+youtube_search
+yt_dlp
+emoji
+unidecode
