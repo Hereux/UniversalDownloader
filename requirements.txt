@@ -5,3 +5,7 @@ youtube_search
 yt_dlp
 emoji
 unidecode
+ttkbootstrap
+musicbrainzngs
+emoji
+soundcloud-lib
