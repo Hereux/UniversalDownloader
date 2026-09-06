@@ -10,10 +10,6 @@ from dataclasses import dataclass
 # Tracks muss der MB-Fallback deshalb serialisiert werden (Deezer bleibt parallel).
 _mb_lock = threading.Lock()
 
-import socket
-_orig_getaddrinfo = socket.getaddrinfo
-socket.getaddrinfo = lambda h, p, f=0, *a, **kw: _orig_getaddrinfo(h, p, socket.AF_INET, *a, **kw)
-
 session = requests.Session()
 session.headers.update({"User-Agent": "UniversalDownloader/0.5 ( maklihereux@gmail.com )"})
 session.mount("https://", HTTPAdapter(max_retries=Retry(

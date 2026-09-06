@@ -8,10 +8,6 @@ import emoji
 import requests
 from unidecode import unidecode
 from yt_dlp.utils import DownloadCancelled
-import socket
-import urllib3.util.connection as urllib3_conn
-
-urllib3_conn.allowed_gai_family = lambda: socket.AF_INET
 
 def resource_path(relative_path):
     """ Holt den absoluten Pfad zur Resource – funktioniert bei dev UND in der EXE """
@@ -105,6 +101,12 @@ def _abort_if_too_large(max_bytes):
 _MAX_AUDIO_BYTES = 3 * 1024 * 1024 * 1024    # 3 GiB - deckt auch lange DJ-Sets/Mixes ab
 _MAX_VIDEO_BYTES = 30 * 1024 * 1024 * 1024   # 30 GiB - deckt auch lange Mixe/Videos in hoher Auflösung ab
 
+# Ohne JS-Runtime kann yt-dlp YouTubes Signatur-/PO-Token-Herausforderung nicht lösen und
+# weicht auf ungewöhnliche Player-Clients aus, die YouTube mit "Sign in to confirm you're
+# not a bot" blockt - auch ohne dass Cookies nötig wären. Mit gebündeltem Deno behoben.
+_JS_RUNTIMES = {"deno": {"path": resource_path("deno.exe")}}
+
+
 def ydl_opts_video(path: str):
     return {
         "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
@@ -113,6 +115,7 @@ def ydl_opts_video(path: str):
         "no_warnings": True,
         "ffmpeg_location": resource_path("ffmpeg.exe"),
         "progress_hooks": [_abort_if_too_large(_MAX_VIDEO_BYTES)],
+        "js_runtimes": _JS_RUNTIMES,
     }
 
 
@@ -129,6 +132,7 @@ def ydl_opts_audio(path: str):
         "no_warnings": True,
         "ffmpeg_location": resource_path("ffmpeg.exe"),
         "progress_hooks": [_abort_if_too_large(_MAX_AUDIO_BYTES)],
+        "js_runtimes": _JS_RUNTIMES,
     }
 
 
@@ -139,6 +143,7 @@ def ydl_opts_extract(extract_flat=True):
         "skip_download": True,
         "no_warnings": True,
         "ignoreerrors": True,
+        "js_runtimes": _JS_RUNTIMES,
     }
 
 

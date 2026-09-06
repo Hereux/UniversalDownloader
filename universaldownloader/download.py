@@ -11,6 +11,7 @@ import ttkbootstrap as tb
 import yt_dlp
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
+from spotipy.exceptions import SpotifyException
 from yt_dlp.utils import DownloadCancelled
 
 import yt_music_search
@@ -96,6 +97,12 @@ class Downloader(threading.Thread):
             except SpotifyCredentialsMissing:
                 self.status_var.set("Spotify-Zugangsdaten fehlen.")
                 self.spotify_error_var.set("missing")
+                continue
+            except SpotifyException as e:
+                if e.http_status == 404:
+                    self.status_var.set("Spotify-Playlists/Mixes werden nicht unterstützt.")
+                else:
+                    self.status_var.set(f"Spotify-Fehler: {e}")
                 continue
             except RuntimeError as e:
                 self.status_var.set(str(e))

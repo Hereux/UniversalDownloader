@@ -24,7 +24,7 @@ a = Analysis(
     ['universaldownloader\\main.py'],
     pathex=['universaldownloader'],
     binaries=[],
-    datas=_bin_datas + [('universaldownloader/ffmpeg.exe', '.')]
+    datas=_bin_datas + [('universaldownloader/ffmpeg.exe', '.'), ('universaldownloader/deno.exe', '.')]
         + collect_data_files('ttkbootstrap'),
     hiddenimports=[],
     hookspath=[],
