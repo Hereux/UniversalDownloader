@@ -1,0 +1,29 @@
+# Persönliche Konfiguration mit echten API-Keys und lokalem Downloadpfad -
+# niemals committen. Für die Weitergabe/den Build wird settings.public.json verwendet.
+universaldownloader/bin/settings.json
+
+# Spotipy-OAuth-Cache: enthält einen echten access_token + refresh_token, niemals committen.
+.cache
+**/.cache
+
+# Build-Artefakte (PyInstaller)
+/build/
+/dist/
+universaldownloader/build/
+universaldownloader/dist/
+*.spec.bak
+
+# Heruntergeladene Musik/Videos (persönliche Bibliothek, nicht Teil des Projekts)
+/Downloads/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
